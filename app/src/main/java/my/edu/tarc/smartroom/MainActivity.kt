@@ -16,24 +16,26 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         //connect to common resources firebase
-        val database1 = FirebaseDatabase.getInstance("https://bait2123-202010-03.firebaseio.com/")
+        //val database1 = FirebaseDatabase.getInstance("https://bait2123-202010-03.firebaseio.com/")
 
         //connect to personal firebase
-        val database2 = FirebaseDatabase.getInstance("https://solenoid-lock-f65e8.firebaseio.com/")
+        //val database2 = FirebaseDatabase.getInstance("https://solenoid-lock-f65e8.firebaseio.com/")
 
         //connect to personal database for authentication
-        var auth: FirebaseAuth = FirebaseAuth.getInstance()
+        //var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
         val buttonLogin: Button = findViewById(R.id.buttonLogin)
         var email1: TextView = findViewById(R.id.editTextEmail)
         var password1: TextView = findViewById(R.id.editTextPassword)
+        var defaultemail : String = "imposter@gmail.com"
+        var defaultpsw : String = "123456"
 
         //start of login button
         buttonLogin.setOnClickListener() {
             val email = email1.text.toString()
             val password = password1.text.toString()
             var loginStatus = "true"
-
+/*
             //login validation
             if (email1.text.toString().isEmpty()) {
                 email1.error = "Please enter your email"
@@ -43,12 +45,14 @@ class MainActivity : AppCompatActivity() {
                 password1.error = "Password is required"
                 loginStatus = "false"
             }
+ */
             if (loginStatus == "true") {
-                auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
+                if (email == defaultemail && password == defaultpsw){
+                //auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
+                    //if (task.isSuccessful) {
                         // Sign in success direct user to reservation page
-                        Log.d("success","success")
-                        startActivity(Intent(this, DisplayRoom::class.java))
+                        //Log.d("success","success")
+                        startActivity(Intent(this, DisplayRoom::class.java))}
                     } else {
                         // If sign in fails, display a message to the user.
                         Toast.makeText(baseContext, "Login failed. Please try again", Toast.LENGTH_SHORT).show()
@@ -56,5 +60,5 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }//end of login button
-    }
-}
+    //}
+//}

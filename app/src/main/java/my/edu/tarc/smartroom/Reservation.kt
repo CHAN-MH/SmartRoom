@@ -79,8 +79,8 @@ class Reservation : AppCompatActivity() {
 
         reserveButton.setOnClickListener {
             var lcdscr = "1"
-            var lcdtxt = "****OCCUPIED****"
-            var lcdbkR = "255"
+            var lcdtxt = "**!!OCCUPIED!!**"
+            var lcdbkR = "200"
             var lcdbkG = "0"
             var lcdbkB = "0"
 
