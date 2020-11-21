@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">SmartRoom</string>
+    <string name="buttonLogin">Login</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="title_activity_room_display">RoomDisplay</string>
+    <string name="buttonReserve">Generate Door PIN</string>
+    <string name="discussion_room">Discussion Room</string>
+    <string name="room_number">Room Number</string>
+    <string name="room_num_of_pax">Num of Pax</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="hint_date">Select A Date</string>
+    <string name="hint_time">Select a Time Slot</string>
+    <string name="OccupiedDialogTitle">Oops!</string>
+    <string name="timeLeft">Time Left</string>
+</resources>
