@@ -19,6 +19,7 @@
         <activity android:name=".DisplayRoom"></activity>
         <activity android:name=".Reservation"></activity>
         <activity android:name=".SolenoidDoor"></activity>
+        <activity android:name="TimeCountDown"></activity>
 
     </application>
 

@@ -1,4 +1,4 @@
-package my.edu.tarc.iotassignment
+package my.edu.tarc.smartroom
 
 import android.os.Bundle
 import android.os.CountDownTimer
