@@ -23,11 +23,11 @@ class Timer : AppCompatActivity() {
 
         object : CountDownTimer(30000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                UItimer.setText("seconds remaining: " + millisUntilFinished / 1000)
+                UItimer.setText("Time remaining: " + millisUntilFinished / 1000 + "sec")
             }
 
             override fun onFinish() {
-                UItimer.setText("done!")
+                UItimer.setText("Session End")
             }
         }.start()
 
@@ -35,40 +35,6 @@ class Timer : AppCompatActivity() {
 } //end of class
 
 /*
-fun pauseTimer() {
-    countdown_timer.cancel()
-    isRunning = false
-    buttonExtend.visibility = View.VISIBLE
-}
-
-fun startTimer(time_in_seconds: Long) {
-    countdown_timer = object : CountDownTimer(time_in_seconds, 1000) {
-        override fun onFinish() {
-            //extendDialog()
-        }
-        override fun onTick(p0: Long) {
-            time_in_milli_seconds = p0
-            updateTextUI()
-        }
-    }
-    countdown_timer.start()
-
-    isRunning = true
-    buttonExtend.visibility = View.INVISIBLE
-}
-
-fun resetTimer() {
-    time_in_milli_seconds = START_MILLI_SECONDS
-    updateTextUI()
-    buttonExtend.visibility = View.INVISIBLE
-}
-
-fun updateTextUI() {
-    val minute = (time_in_milli_seconds / 1000) / 60
-    val seconds = (time_in_milli_seconds / 1000) % 60
-
-    UItimer.text = "$minute:$seconds"
-
     //---------------------------------------------------------------
     //passing startTimer through intent
         var timer: String? = intent.getStringExtra("timer")
