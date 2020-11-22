@@ -77,9 +77,7 @@ class SolenoidDoor : AppCompatActivity() {
                 if(password == code){
                     //door open
                     Toast.makeText(baseContext, "Door Unlocked!", Toast.LENGTH_SHORT).show()
-                    //val timer = 1
-                    val intent = Intent(this, DisplayRoom::class.java)
-                    //intent.putExtra("timer", timer)
+                    val intent = Intent(this, Timer::class.java)
                     startActivity(intent)
                 }
                 else{
