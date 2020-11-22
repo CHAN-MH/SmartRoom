@@ -78,7 +78,7 @@ class SolenoidDoor : AppCompatActivity() {
                     psw.requestFocus();
                 }
                 else{
-                    Toast.makeText(baseContext, "Door Unlocked!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(baseContext, "Door Unlocked!!YAY", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, Timer::class.java)
                     startActivity(intent)
                 }
