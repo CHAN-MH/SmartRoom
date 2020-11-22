@@ -74,16 +74,16 @@ class SolenoidDoor : AppCompatActivity() {
             }
             else{
                 //do password checking
-                if(password == code){
+                //if(password == code){
                     //door open
                     Toast.makeText(baseContext, "Door Unlocked!", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, Timer::class.java)
                     startActivity(intent)
-                }
-                else{
-                    psw.error = "Password does not match!";
-                    psw.requestFocus();
-                }
+                //}
+                //else{
+                    //psw.error = "Password does not match!";
+                    //psw.requestFocus();
+                //}
 
             }}
 
