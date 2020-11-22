@@ -12,51 +12,49 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-lateinit var code:String
-class SolenoidDoor : AppCompatActivity() {
+class Door : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_solenoid_door)
 
-        //passing the user choice through activity
-        var selection: String? = intent.getStringExtra("selection")
+        var code: String = "000000"
 
         //Accessing UI
         val psw: EditText = findViewById(R.id.password)
         val buttonProceed: Button = findViewById(R.id.buttonProceed)
+        val textView:TextView = findViewById(R.id.textView)
 
         //accessing the database
-        val database = FirebaseDatabase.getInstance()
-        val myRef = database.getReference("Room")
+        val database = FirebaseDatabase.getInstance("https://solenoid-lock-f65e8.firebaseio.com/")
+        var myRef = database.getReference("Room")
+
+        //passing the user choice through activity
+        var selection: String? = intent.getStringExtra("SELECTION")
 
         //retrieving the pass code from firebase
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 //check for retrieving which room
-                when (selection) {
-                    "1" -> {
-                        //storing the correct password into code variable
-                        code = dataSnapshot.child("Room1").child("code").value.toString();
-                    }
-                    "2" -> {
-                        //storing the correct password into code variable
-                        code = dataSnapshot.child("Room2").child("code").value.toString();
-                    }
-                    "3" -> {
-                        //storing the correct password into code variable
-                        code = dataSnapshot.child("Room3").child("code").value.toString();
-                    }
-                    "4" -> {
-                        //storing the correct password into code variable
-                        code = dataSnapshot.child("Room4").child("code").value.toString();
-                    }
+                if (selection == "1") {
+                    //storing the correct password into code variable
+                    code = dataSnapshot.child("Room1").child("code").value.toString();
+                }
+                else if (selection == "2") {
+                    //storing the correct password into code variable
+                    code = dataSnapshot.child("Room2").child("code").value.toString();
+                }
+                else if (selection == "3") {
+                    //storing the correct password into code variable
+                    code = dataSnapshot.child("Room3").child("code").value.toString();
+                }
+                else if (selection == "4") {
+                    //storing the correct password into code variable
+                    code = dataSnapshot.child("Room4").child("code").value.toString();
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {
-                val textView:TextView = findViewById(R.id.textView)
                 textView.text = "Sign In Function Failed"
-
             }
         })
 
@@ -67,7 +65,6 @@ class SolenoidDoor : AppCompatActivity() {
                 psw.error = "Password is required!";
                 psw.requestFocus();
             }
-
             else if(password.length < 6){
                 psw.error = "Password must not less than 6 digit!";
                 psw.requestFocus();

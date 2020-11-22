@@ -140,6 +140,7 @@ class DisplayRoom : AppCompatActivity() {
         textViewRoom1.setOnClickListener() {
             //1 = available, 0 = occupied
             val intent = Intent(this, Reservation::class.java)
+
             if(a1 == 1)
             {
                 selection = "1"

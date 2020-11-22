@@ -150,7 +150,9 @@ class Reservation : AppCompatActivity() {
         //open the door action
         val door: TextView = findViewById(R.id.openthedoor)
         door.setOnClickListener {
-            startActivity(Intent(this, SolenoidDoor::class.java))
+            val doorIntent = Intent(this, Door::class.java)
+            doorIntent.putExtra("SELECTION", selection)
+            startActivity(doorIntent)
         }
     }
 }
