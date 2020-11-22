@@ -106,7 +106,7 @@ class Reservation : AppCompatActivity() {
             pcode = String.format("%06d", code);
             codeOTP.text = "Your room pin is $pcode"
 
-            //check for room selection
+            //check for room selection and write the respect door pin
             if(selection == "1"){
                 //room1 is selected, write to room 1 firebase code
                 val codePin = database2.getReference("Room").child("Room1").child("code")
@@ -130,8 +130,6 @@ class Reservation : AppCompatActivity() {
 
             //changing message in the button
             reserveButton.text = "SUCCESSFULLY BOOKED"
-
-
 
             //changing the room status to occupied in firebase
             if (selection == "1") {

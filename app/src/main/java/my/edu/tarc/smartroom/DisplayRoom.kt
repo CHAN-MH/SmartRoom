@@ -46,7 +46,6 @@ class DisplayRoom : AppCompatActivity() {
         val textViewRoom3: TextView = findViewById(R.id.textViewRoom3)
         val textViewRoom4: TextView = findViewById(R.id.textViewRoom4)
 
-
         //displaying the rooms status(available or occupied)
         myref.child("Room1").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
