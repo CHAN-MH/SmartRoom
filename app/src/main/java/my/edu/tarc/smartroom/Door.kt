@@ -51,7 +51,6 @@ class Door : AppCompatActivity() {
                     code = dataSnapshot.child("Room4").child("code").value.toString();
                 }
             }
-
             override fun onCancelled(error: DatabaseError) {
                 textView.text = "Sign In Function Failed"
             }

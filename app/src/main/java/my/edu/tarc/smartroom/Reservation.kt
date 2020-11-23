@@ -17,7 +17,7 @@ class Reservation : AppCompatActivity() {
     //Write to common resources firebase
     val data1 = database1.getReference("PI_03_CONTROL")
     //Write to personal firebase
-    val data2 = database2.getReference("bait2123-202010-03").child("PI_03_CONTROL")
+    val data2 = database2.getReference("PI_03_CONTROL")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,8 +37,11 @@ class Reservation : AppCompatActivity() {
 
         //passing user's room selection through intent
         var selection: String? = intent.getStringExtra("selection")
+        //writing to firebase
         var selectRef = database2.getReference("Room").child("selection")
         selectRef.setValue(selection)
+        //Write to special for yijie
+        data2.child("selection").setValue(selection)
 
         roomRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
