@@ -1,88 +1,82 @@
 package my.edu.tarc.smartroom
 
+import android.app.AlertDialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.DialogInterface
+import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 
 class Timer : AppCompatActivity() {
+
     //Global variable
-    //var time = 50
+    var extend: String = "true"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timer)
 
         //Link UI to program
-        val UItimer : TextView = findViewById(R.id.UItimer)
+        val UItimer: TextView = findViewById(R.id.UItimer)
 
+        //start of timer
         object : CountDownTimer(30000, 1000) {
+
+            @RequiresApi(Build.VERSION_CODES.O)
             override fun onTick(millisUntilFinished: Long) {
                 UItimer.setText("seconds remaining: " + millisUntilFinished / 1000)
-                var timeleft = (millisUntilFinished / 1000).toString()
-                if (timeleft == "20")
-                {
-                    displayExtensionDialog()
+                //var timeleft = millisUntilFinished / 1000
+                var notiTime = (millisUntilFinished / 1000).toString()
+                if (notiTime== "20") {
+                    createNotificationChannel()
                 }
-            }
+
+            }//end of onTick
+
             override fun onFinish() {
                 UItimer.setText("Session Ended!")
-            }
-        }.start()
+            }//end of onFinish
+        }.start()//end of timer
+
 
     }//end of onCreate
 
-    private fun displayExtensionDialog() {
-        // create an alert builder
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Extend Session")
-
-        // set the custom layout
-        val customLayout: View = layoutInflater.inflate(R.layout.dialog_extension, null);
-        builder.setView(customLayout);
-        builder.setMessage("Session about to end. Do you want to extend your session?")
-
-        builder.apply {
-            setPositiveButton(R.string.extend, DialogInterface.OnClickListener { dialog, _ ->
-                //When user click extend
-                //textViewExtension.text = "Succesfully extend session for another 30 minute"
-                dialog.cancel()
-            })
-            setNegativeButton(R.string.nothx, DialogInterface.OnClickListener { dialog, _->
-                //When user click No, thanks
-                //.text = "Please evacuate the room before your session ends."
-                dialog.cancel()
-            })
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.mychannel)
+            val descriptionText = getString(R.string.channeldesc)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel("1234", name, importance).apply {
+                description = descriptionText
+            }
+            //Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
         }
-
-        // create and show the alert dialog
-        val dialog: AlertDialog = builder.create()
-        dialog.show()
-    }//end of dialog
+        //Send notification to user when session about to end
+        val builder = NotificationCompat.Builder(this, "1234")
+            .setSmallIcon(R.drawable.logo)
+            .setContentTitle("Session Status")
+            .setContentText("Session about to end")
+            .setStyle(
+                NotificationCompat.BigTextStyle()
+                    .bigText("Session ending in 20 minutes. Kindly evacuate the room on time.")
+            )
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        val notificationId = 5678
+        with(NotificationManagerCompat.from(this)) {
+            notify(notificationId, builder.build())
+        }
+    }
 
 }//end of class
-
-/*
-    //---------------------------------------------------------------
-    //passing startTimer through intent
-        var timer: String? = intent.getStringExtra("timer")
-
-        if (timer != null) {
-            if (timer.equals(1)) {
-                object : CountDownTimer(50000, 1000) {
-                    override fun onTick(millisUntilFinished: Long) {
-                        UItimer.setText(java.lang.String.valueOf(time))
-                        time--
-                    }
-
-                    override fun onFinish() {
-                        UItimer.setText("Session Ends. Do you want to extend?")
-                    }
-                }.start()
-
-            }
-        }//end of if statement
-*/

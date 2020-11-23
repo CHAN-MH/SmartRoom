@@ -17,4 +17,6 @@
     <string name="noted">Noted</string>
     <string name="extend">Extend</string>
     <string name="nothx">No, thanks</string>
+    <string name="mychannel">My Channel</string>
+    <string name="channeldesc">This is my channel</string>
 </resources>

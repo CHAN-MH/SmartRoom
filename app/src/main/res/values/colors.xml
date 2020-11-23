@@ -12,4 +12,5 @@
     <color name="occupied_colour">#EC7063</color>
     <color name="available_colour">#A2D9CE</color>
     <color name="my_brown">#7E5109</color>
+    <color name="my_background">#EDBB99</color>
 </resources>
