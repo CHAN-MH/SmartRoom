@@ -37,6 +37,8 @@ class Reservation : AppCompatActivity() {
 
         //passing user's room selection through intent
         var selection: String? = intent.getStringExtra("selection")
+        var selectRef = database2.getReference("Room").child("selection")
+        selectRef.setValue(selection)
 
         roomRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {

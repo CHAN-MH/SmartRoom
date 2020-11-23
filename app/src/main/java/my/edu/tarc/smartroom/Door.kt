@@ -25,15 +25,14 @@ class Door : AppCompatActivity() {
         val textView:TextView = findViewById(R.id.textView)
 
         //accessing the database
-        val database = FirebaseDatabase.getInstance("https://solenoid-lock-f65e8.firebaseio.com/")
-        var myRef = database.getReference("Room")
-
-        //passing the user choice through activity
-        var selection: String? = intent.getStringExtra("SELECTION")
+        val database2 = FirebaseDatabase.getInstance("https://solenoid-lock-f65e8.firebaseio.com/")
+        var myRef = database2.getReference("Room")
 
         //retrieving the pass code from firebase
         myRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                //Retrieve user room selection from firebase
+                var selection = dataSnapshot.child("selection").value.toString();
                 //check for retrieving which room
                 if (selection == "1") {
                     //storing the correct password into code variable
