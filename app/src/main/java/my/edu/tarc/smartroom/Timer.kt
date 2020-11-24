@@ -14,11 +14,21 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.google.firebase.database.*
 
 class Timer : AppCompatActivity() {
 
     //Global variable
-    var extend: String = "true"
+    private lateinit var selection : String
+    //database1 = common resources firebase
+    val database1 = FirebaseDatabase.getInstance("https://bait2123-202010-03.firebaseio.com/")
+    //primary firebase : our firebase
+    val database2: FirebaseDatabase = FirebaseDatabase.getInstance("https://solenoid-lock-f65e8.firebaseio.com/")
+    val timeRef = database2.getReference("Room")
+    //Write to common resources firebase
+    val data1 = database1.getReference("PI_03_CONTROL")
+    //Write to personal firebase
+    val data2 = database2.getReference("PI_03_CONTROL")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,21 +38,64 @@ class Timer : AppCompatActivity() {
         val UItimer: TextView = findViewById(R.id.UItimer)
 
         //start of timer
-        object : CountDownTimer(30000, 1000) {
+        object : CountDownTimer(20000, 1000) {
 
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onTick(millisUntilFinished: Long) {
-                UItimer.setText("seconds remaining: " + millisUntilFinished / 1000)
+                UItimer.setText("RemainingTime : " + millisUntilFinished / 1000)
                 //var timeleft = millisUntilFinished / 1000
                 var notiTime = (millisUntilFinished / 1000).toString()
-                if (notiTime== "20") {
+                if (notiTime== "10") {
                     createNotificationChannel()
                 }
-
             }//end of onTick
 
             override fun onFinish() {
                 UItimer.setText("Session Ended!")
+                timeRef.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        selection = dataSnapshot.child("selection").value.toString()
+                        when (selection) {
+                            "1" -> {
+                                timeRef.child("Room1").child("status").setValue("true")
+                            }
+                            "2" -> {
+                                timeRef.child("Room2").child("status").setValue("true")
+                            }
+                            "3" -> {
+                                timeRef.child("Room3").child("status").setValue("true")
+                            }
+                            "4" -> {
+                                timeRef.child("Room4").child("status").setValue("true")
+                            }
+                        }
+                    }
+                    override fun onCancelled(error: DatabaseError) {
+                        //Actions when failed to read data
+                        UItimer.text = "Read failed."
+                    }
+                })//end of valueEventListener
+
+                var lcdscr = "1"
+                var lcdtxt = "****AVAILABLE****"
+                var lcdbkR = "0"
+                var lcdbkG = "20"
+                var lcdbkB = "0"
+
+                //setting the value at common resources
+                data1.child("lcdscr").setValue(lcdscr)
+                data1.child("lcdtxt").setValue(lcdtxt)
+                data1.child("lcdbkR").setValue(lcdbkR)
+                data1.child("lcdbkG").setValue(lcdbkG)
+                data1.child("lcdbkB").setValue(lcdbkB)
+
+                //for testing purpose
+                //setting the value at personal database
+                data2.child("lcdscr").setValue(lcdscr)
+                data2.child("lcdtxt").setValue(lcdtxt)
+                data2.child("lcdbkR").setValue(lcdbkR)
+                data2.child("lcdbkG").setValue(lcdbkG)
+                data2.child("lcdbkB").setValue(lcdbkB)
             }//end of onFinish
         }.start()//end of timer
 

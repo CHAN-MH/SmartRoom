@@ -26,7 +26,7 @@ class DisplayRoom : AppCompatActivity() {
     var a3 : Int = 1
     var a4 : Int = 1
     //internal val intent = Intent(this, Reservation::class.java)
-    var selection : String = "0"
+    //var selection : String = "0"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +39,7 @@ class DisplayRoom : AppCompatActivity() {
         //primary firebase : our firebase
         val database2: FirebaseDatabase = FirebaseDatabase.getInstance("https://solenoid-lock-f65e8.firebaseio.com/")
         val myref: DatabaseReference = database2.getReference("Room")
+        var selectRef = database2.getReference("Room").child("selection")
 
         //Link UI to program
         val textViewRoom1: TextView = findViewById(R.id.textViewRoom1)
@@ -143,8 +144,8 @@ class DisplayRoom : AppCompatActivity() {
 
             if(a1 == 1)
             {
-                selection = "1"
-                intent.putExtra("selection", selection)
+                selectRef.setValue("1")
+                //intent.putExtra("selection", selection)
                 startActivity(intent)
             }
             else
@@ -158,8 +159,9 @@ class DisplayRoom : AppCompatActivity() {
             val intent = Intent(this, Reservation::class.java)
             if(a2 == 1)
             {
-                selection = "2"
-                intent.putExtra("selection", selection)
+                //selection = "2"
+                selectRef.setValue("2")
+                //intent.putExtra("selection", selection)
                 startActivity(intent)
 
             }
@@ -174,8 +176,9 @@ class DisplayRoom : AppCompatActivity() {
             val intent = Intent(this, Reservation::class.java)
             if(a3 == 1)
             {
-                selection = "3"
-                intent.putExtra("selection", selection)
+                //selection = "3"
+                selectRef.setValue("3")
+                //intent.putExtra("selection", selection)
                 startActivity(intent)
             }
             else
@@ -189,8 +192,9 @@ class DisplayRoom : AppCompatActivity() {
             val intent = Intent(this, Reservation::class.java)
             if(a4 == 1)
             {
-                selection = "4"
-                intent.putExtra("selection", selection)
+                //selection = "4"
+                selectRef.setValue("4")
+                //intent.putExtra("selection", selection)
                 startActivity(intent)
             }
             else

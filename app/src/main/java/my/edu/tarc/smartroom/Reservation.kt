@@ -1,14 +1,23 @@
 package my.edu.tarc.smartroom
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.*
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZoneId
+import java.util.*
 
 class Reservation : AppCompatActivity() {
 
+    //Global variable
+    private lateinit var selection : String
     //database1 = common resources firebase
     val database1 = FirebaseDatabase.getInstance("https://bait2123-202010-03.firebaseio.com/")
     //database2 = personal firebase
@@ -19,6 +28,7 @@ class Reservation : AppCompatActivity() {
     //Write to personal firebase
     val data2 = database2.getReference("PI_03_CONTROL")
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reservation)
@@ -30,21 +40,44 @@ class Reservation : AppCompatActivity() {
         val codeOTP: TextView = findViewById(R.id.code)
         val textViewRoomNo : TextView = findViewById(R.id.textViewRoomNo)
         val textViewNoOfPax : TextView = findViewById(R.id.textViewNoOfPax)
+        val hintDate : TextView = findViewById(R.id.hintDate)
+        val hintTime : TextView = findViewById(R.id.hintTime)
         //initialize code variable
         var code:Int = 0 ;
         var pcode:String ="";
 
 
         //passing user's room selection through intent
-        var selection: String? = intent.getStringExtra("selection")
+        //var selection: String? = intent.getStringExtra("selection")
         //writing to firebase
-        var selectRef = database2.getReference("Room").child("selection")
-        selectRef.setValue(selection)
+        //var selectRef = database2.getReference("Room").child("selection")
+        //selectRef.setValue(selection)
         //Write to special for yijie
-        data2.child("selection").setValue(selection)
+        //data2.child("selection").setValue(selection)
+/*
+        //-------------------------------
+        val c = Calendar.getInstance()
+
+        val year = c.get(Calendar.YEAR).toString()
+        val month = c.get(Calendar.MONTH).toString()
+        val day = c.get(Calendar.DAY_OF_MONTH).toString()
+
+        val hour = c.get(Calendar.HOUR_OF_DAY).toString()
+        val minute = c.get(Calendar.MINUTE).toString()
+
+        hintDate.text = day + "/" + month + "/" + year
+        hintTime.text = hour + ":" + minute
+        //-------------------------------
+*/
+        val myZone = ZoneId.of("Asia/Kuala_Lumpur")
+        val date = LocalDate.now(myZone)
+        val time = LocalTime.now(myZone)
+        hintDate.text = date.toString()
+        hintTime.text = time.toString()
 
         roomRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                selection = dataSnapshot.child("selection").value.toString()
                 if (selection == "1")
                 {
                     var roomNo:String = dataSnapshot.child("Room1").child("roomNo").getValue().toString()
@@ -84,8 +117,8 @@ class Reservation : AppCompatActivity() {
 
         reserveButton.setOnClickListener {
             var lcdscr = "1"
-            var lcdtxt = "**!!OCCUPIED!!**"
-            var lcdbkR = "200"
+            var lcdtxt = "****OCCUPIED****"
+            var lcdbkR = "20"
             var lcdbkG = "0"
             var lcdbkB = "0"
 
@@ -150,7 +183,7 @@ class Reservation : AppCompatActivity() {
                 roomRef.child("Room4").child("status").setValue("false")
 
             }
-        }
+        }//end of reserve button onCLickListener
 
         //open the door action
         val door: TextView = findViewById(R.id.openthedoor)
@@ -159,5 +192,6 @@ class Reservation : AppCompatActivity() {
             doorIntent.putExtra("SELECTION", selection)
             startActivity(doorIntent)
         }
-    }
-}
+    }//end of onCreate
+
+}//end of class

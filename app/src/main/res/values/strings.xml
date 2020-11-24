@@ -13,7 +13,7 @@
     <string name="hint_date">Select A Date</string>
     <string name="hint_time">Select a Time Slot</string>
     <string name="OccupiedDialogTitle">Oops!</string>
-    <string name="timeLeft">Time Left</string>
+    <string name="timeLeft">Remaining Time : </string>
     <string name="noted">Noted</string>
     <string name="extend">Extend</string>
     <string name="nothx">No, thanks</string>

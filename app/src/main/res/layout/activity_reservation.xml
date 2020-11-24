@@ -13,11 +13,11 @@
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="130dp"
         android:text="@string/buttonReserve"
-        android:textColor="@color/white"
+        android:textColor="@color/my_brown"
         android:textSize="18sp"
-        app:backgroundTint="@color/black"
+        app:backgroundTint="@color/my_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
@@ -25,8 +25,8 @@
 
     <ImageView
         android:id="@+id/imageView5"
-        android:layout_width="157dp"
-        android:layout_height="204dp"
+        android:layout_width="314dp"
+        android:layout_height="244dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -42,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="100dp" />
+        app:layout_constraintGuide_begin="138dp" />
 
     <TextView
         android:id="@+id/textView"
@@ -50,8 +50,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:text="@string/room_number"
+        android:textColor="@color/my_brown"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
@@ -63,6 +65,8 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
         android:text="@string/room_num_of_pax"
+        android:textColor="@color/my_brown"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -74,6 +78,8 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
         android:text="TextView"
+        android:textColor="@color/my_brown"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/textViewRoomNo" />
 
@@ -85,6 +91,8 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
         android:text="@string/date"
+        android:textColor="@color/my_brown"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -95,7 +103,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
-        android:hint="@string/hint_date"
+        android:text="TextView"
+        android:textColor="@color/my_brown"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/textViewNoOfPax" />
 
@@ -105,8 +115,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:text="TextView"
+        android:textColor="@color/my_brown"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
@@ -118,6 +130,8 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
         android:text="@string/time"
+        android:textColor="@color/my_brown"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -128,8 +142,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
-        android:hint="@string/hint_time"
-        android:text="@string/hint_time"
+        android:text="TextView"
+        android:textColor="@color/my_brown"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/hintDate" />
 
@@ -158,9 +173,21 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="UNLOCK THE DOOR"
-        android:textColor="#03A9F4"
+        android:textColor="@color/my_brown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonReserve" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="220dp"
+        android:text="@string/app_name"
+        android:textColor="@color/my_brown"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
