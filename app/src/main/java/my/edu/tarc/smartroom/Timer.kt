@@ -37,6 +37,18 @@ class Timer : AppCompatActivity() {
         //Link UI to program
         val UItimer: TextView = findViewById(R.id.UItimer)
 
+        //read from database
+        timeRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                selection = dataSnapshot.child("selection").value.toString()
+
+            }
+            override fun onCancelled(error: DatabaseError) {
+                //Actions when failed to read data
+                UItimer.text = "Read failed."
+            }
+        })//end of valueEventListener
+
         //start of timer
         object : CountDownTimer(20000, 1000) {
 
@@ -52,29 +64,20 @@ class Timer : AppCompatActivity() {
 
             override fun onFinish() {
                 UItimer.setText("Session Ended!")
-                timeRef.addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        selection = dataSnapshot.child("selection").value.toString()
-                        when (selection) {
-                            "1" -> {
-                                timeRef.child("Room1").child("status").setValue("true")
-                            }
-                            "2" -> {
-                                timeRef.child("Room2").child("status").setValue("true")
-                            }
-                            "3" -> {
-                                timeRef.child("Room3").child("status").setValue("true")
-                            }
-                            "4" -> {
-                                timeRef.child("Room4").child("status").setValue("true")
-                            }
-                        }
+                when (selection) {
+                    "1" -> {
+                        timeRef.child("Room1").child("status").setValue("true")
                     }
-                    override fun onCancelled(error: DatabaseError) {
-                        //Actions when failed to read data
-                        UItimer.text = "Read failed."
+                    "2" -> {
+                        timeRef.child("Room2").child("status").setValue("true")
                     }
-                })//end of valueEventListener
+                    "3" -> {
+                        timeRef.child("Room3").child("status").setValue("true")
+                    }
+                    "4" -> {
+                        timeRef.child("Room4").child("status").setValue("true")
+                    }
+                }
 
                 var lcdscr = "1"
                 var lcdtxt = "****AVAILABLE****"
