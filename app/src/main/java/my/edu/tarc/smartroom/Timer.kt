@@ -37,6 +37,7 @@ class Timer : AppCompatActivity() {
         //Link UI to program
         val UItimer: TextView = findViewById(R.id.UItimer)
 
+        //here is what i chg
         //read from database
         timeRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
