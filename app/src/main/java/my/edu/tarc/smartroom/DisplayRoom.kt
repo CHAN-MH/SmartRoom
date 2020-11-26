@@ -27,16 +27,15 @@ class DisplayRoom : AppCompatActivity() {
     var a4 : Int = 1
     //internal val intent = Intent(this, Reservation::class.java)
     //var selection : String = "0"
+    //connect to common resources
+    val database1 = FirebaseDatabase.getInstance("https://bait2123-202010-03.firebaseio.com/")
+    var comRef = database1.getReference("PI_03_CONTROL")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_display_room)
 
-
-        //secondary firebase : sir firebase
-        val database1 = FirebaseDatabase.getInstance("https://bait2123-202010-03.firebaseio.com/")
-
-        //primary firebase : our firebase
+        //connect to personal firebase
         val database2: FirebaseDatabase = FirebaseDatabase.getInstance("https://solenoid-lock-f65e8.firebaseio.com/")
         val myref: DatabaseReference = database2.getReference("Room")
         var selectRef = database2.getReference("Room").child("selection")
@@ -145,7 +144,6 @@ class DisplayRoom : AppCompatActivity() {
             if(a1 == 1)
             {
                 selectRef.setValue("1")
-                //intent.putExtra("selection", selection)
                 startActivity(intent)
             }
             else
@@ -161,7 +159,6 @@ class DisplayRoom : AppCompatActivity() {
             {
                 //selection = "2"
                 selectRef.setValue("2")
-                //intent.putExtra("selection", selection)
                 startActivity(intent)
 
             }
@@ -178,7 +175,6 @@ class DisplayRoom : AppCompatActivity() {
             {
                 //selection = "3"
                 selectRef.setValue("3")
-                //intent.putExtra("selection", selection)
                 startActivity(intent)
             }
             else
@@ -194,7 +190,6 @@ class DisplayRoom : AppCompatActivity() {
             {
                 //selection = "4"
                 selectRef.setValue("4")
-                //intent.putExtra("selection", selection)
                 startActivity(intent)
             }
             else
@@ -213,12 +208,21 @@ class DisplayRoom : AppCompatActivity() {
         toast.show()
     }
 
-
     private fun displayOccupiedDialog() {
         // create an alert builder
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Room Occupied")
-
+        //setting the value at common resources to display occupied at lcd
+        var lcdscr = "1"
+        var lcdtxt = "****OCCUPIED****"
+        var lcdbkR = "20"
+        var lcdbkG = "0"
+        var lcdbkB = "0"
+        comRef.child("lcdscr").setValue(lcdscr)
+        comRef.child("lcdtxt").setValue(lcdtxt)
+        comRef.child("lcdbkR").setValue(lcdbkR)
+        comRef.child("lcdbkG").setValue(lcdbkG)
+        comRef.child("lcdbkB").setValue(lcdbkB)
         // set the custom layout
         val customLayout: View = layoutInflater.inflate(R.layout.dialog_occupied, null);
         builder.setView(customLayout);
@@ -230,11 +234,25 @@ class DisplayRoom : AppCompatActivity() {
                 ) { dialog, _ -> // When the user click yes button
                     // then app will close
                     dialog.cancel()
+                    setResources()
                 }
 
         // create and show the alert dialog
         val dialog: AlertDialog = builder.create()
         dialog.show()
-    }
+    }//end of dialog
 
+    private fun setResources() {
+        //setting the value at common resources to display available after user close dialog
+        var lcdscr = "1"
+        var lcdtxt = "****AVAILABLE***"
+        var lcdbkR = "0"
+        var lcdbkG = "20"
+        var lcdbkB = "0"
+        comRef.child("lcdscr").setValue(lcdscr)
+        comRef.child("lcdtxt").setValue(lcdtxt)
+        comRef.child("lcdbkR").setValue(lcdbkR)
+        comRef.child("lcdbkG").setValue(lcdbkG)
+        comRef.child("lcdbkB").setValue(lcdbkB)
+    }
 }

@@ -60,7 +60,7 @@ class Timer : AppCompatActivity() {
 
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onTick(millisUntilFinished: Long) {
-                UItimer.setText("RemainingTime : " + millisUntilFinished / 1000)
+                UItimer.setText("RemainingTime : " + millisUntilFinished / 1000 + " min")
                 //var timeleft = millisUntilFinished / 1000
                 var notiTime = (millisUntilFinished / 1000).toString()
                 if (notiTime == "10") {
@@ -86,7 +86,7 @@ class Timer : AppCompatActivity() {
                 }
 
             var lcdscr = "1"
-            var lcdtxt = "****AVAILABLE****"
+            var lcdtxt = "****AVAILABLE***"
             var lcdbkR = "0"
             var lcdbkG = "20"
             var lcdbkB = "0"
