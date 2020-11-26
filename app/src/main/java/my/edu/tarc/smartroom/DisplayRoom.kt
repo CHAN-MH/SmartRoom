@@ -25,8 +25,7 @@ class DisplayRoom : AppCompatActivity() {
     var a2 : Int = 1
     var a3 : Int = 1
     var a4 : Int = 1
-    //internal val intent = Intent(this, Reservation::class.java)
-    //var selection : String = "0"
+
     //connect to common resources
     val database1 = FirebaseDatabase.getInstance("https://bait2123-202010-03.firebaseio.com/")
     var comRef = database1.getReference("PI_03_CONTROL")
@@ -39,6 +38,7 @@ class DisplayRoom : AppCompatActivity() {
         val database2: FirebaseDatabase = FirebaseDatabase.getInstance("https://solenoid-lock-f65e8.firebaseio.com/")
         val myref: DatabaseReference = database2.getReference("Room")
         var selectRef = database2.getReference("Room").child("selection")
+        var yjSelectRef = database2.getReference("PI_03_CONTROL").child("selection")
 
         //Link UI to program
         val textViewRoom1: TextView = findViewById(R.id.textViewRoom1)
@@ -143,6 +143,7 @@ class DisplayRoom : AppCompatActivity() {
 
             if(a1 == 1)
             {
+                yjSelectRef.setValue("1")
                 selectRef.setValue("1")
                 startActivity(intent)
             }
@@ -157,7 +158,7 @@ class DisplayRoom : AppCompatActivity() {
             val intent = Intent(this, Reservation::class.java)
             if(a2 == 1)
             {
-                //selection = "2"
+                yjSelectRef.setValue("2")
                 selectRef.setValue("2")
                 startActivity(intent)
 
@@ -173,7 +174,7 @@ class DisplayRoom : AppCompatActivity() {
             val intent = Intent(this, Reservation::class.java)
             if(a3 == 1)
             {
-                //selection = "3"
+                yjSelectRef.setValue("3")
                 selectRef.setValue("3")
                 startActivity(intent)
             }
@@ -188,7 +189,7 @@ class DisplayRoom : AppCompatActivity() {
             val intent = Intent(this, Reservation::class.java)
             if(a4 == 1)
             {
-                //selection = "4"
+                yjSelectRef.setValue("4")
                 selectRef.setValue("4")
                 startActivity(intent)
             }

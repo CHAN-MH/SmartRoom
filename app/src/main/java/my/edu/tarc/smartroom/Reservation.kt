@@ -45,30 +45,6 @@ class Reservation : AppCompatActivity() {
         //initialize code variable
         var code:Int = 0 ;
         var pcode:String ="";
-
-
-        //passing user's room selection through intent
-        //var selection: String? = intent.getStringExtra("selection")
-        //writing to firebase
-        //var selectRef = database2.getReference("Room").child("selection")
-        //selectRef.setValue(selection)
-        //Write to special for yijie
-        //data2.child("selection").setValue(selection)
-/*
-        //-------------------------------
-        val c = Calendar.getInstance()
-
-        val year = c.get(Calendar.YEAR).toString()
-        val month = c.get(Calendar.MONTH).toString()
-        val day = c.get(Calendar.DAY_OF_MONTH).toString()
-
-        val hour = c.get(Calendar.HOUR_OF_DAY).toString()
-        val minute = c.get(Calendar.MINUTE).toString()
-
-        hintDate.text = day + "/" + month + "/" + year
-        hintTime.text = hour + ":" + minute
-        //-------------------------------
-*/
         val myZone = ZoneId.of("Asia/Kuala_Lumpur")
         val date = LocalDate.now(myZone)
         val time = LocalTime.now(myZone)
