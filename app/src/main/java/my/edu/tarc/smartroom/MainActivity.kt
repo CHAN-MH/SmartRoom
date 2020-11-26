@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             if (loginStatus == "true")
             {
                 //Direct user to DisplayRoom page ig login is successful
-                startActivity(Intent(this, DisplayRoom::class.java))
+                startActivity(Intent(this, DisplayUnlock::class.java))
             }
             else
             {

@@ -10,7 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartRoom">
         <activity android:name=".Door"></activity>
-        <activity android:name=".Testing" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,9 +17,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".DisplayUnlock" />
         <activity android:name=".DisplayRoom" />
         <activity android:name=".Reservation" />
-        <activity android:name=".SolenoidDoor" />
         <activity android:name=".Timer" />
     </application>
 

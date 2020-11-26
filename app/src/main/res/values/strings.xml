@@ -5,7 +5,7 @@
     <string name="hint_password">Password</string>
     <string name="title_activity_room_display">RoomDisplay</string>
     <string name="buttonReserve">Generate Door PIN</string>
-    <string name="discussion_room">Discussion Room</string>
+    <string name="display_room">Display Room</string>
     <string name="room_number">Room Number</string>
     <string name="room_num_of_pax">Num of Pax</string>
     <string name="date">Date</string>
@@ -19,4 +19,5 @@
     <string name="nothx">No, thanks</string>
     <string name="mychannel">My Channel</string>
     <string name="channeldesc">This is my channel</string>
+    <string name="unlock_door">Unlock the Door</string>
 </resources>
