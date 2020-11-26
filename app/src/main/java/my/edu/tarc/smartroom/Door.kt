@@ -24,6 +24,11 @@ class Door : AppCompatActivity() {
         val buttonProceed: Button = findViewById(R.id.buttonProceed)
         val textView:TextView = findViewById(R.id.textView)
 
+        //database1 = common resources firebase
+        val database1 = FirebaseDatabase.getInstance("https://bait2123-202010-03.firebaseio.com/")
+        val Ref = database1.getReference("PI_03_CONTROL")
+
+
         //accessing the database
         val database2 = FirebaseDatabase.getInstance("https://solenoid-lock-f65e8.firebaseio.com/")
         var myRef = database2.getReference("Room")
@@ -74,6 +79,12 @@ class Door : AppCompatActivity() {
                 }
                 else{
                     Toast.makeText(baseContext, "Door Unlocked!!YAY", Toast.LENGTH_SHORT).show()
+                    // reaction when door is unlocked
+                    Ref.child("relay1").setValue("1")
+                    Ref.child("relay2").setValue("1")
+                    Thread.sleep(5000)
+                    Ref.child("relay1").setValue("0")
+                    Ref.child("relay2").setValue("0")
                     val intent = Intent(this, Timer::class.java)
                     startActivity(intent)
                 }
