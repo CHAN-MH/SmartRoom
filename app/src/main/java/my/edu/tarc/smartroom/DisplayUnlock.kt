@@ -19,7 +19,7 @@ class DisplayUnlock: AppCompatActivity() {
             startActivity(Intent(this, DisplayRoom::class.java))
         }
         cardViewUnlockDoor.setOnClickListener() {
-            startActivity(Intent(this, Unlock::class.java))
+            startActivity(Intent(this, UnlockWhichDoor::class.java))
         }
     }
 }

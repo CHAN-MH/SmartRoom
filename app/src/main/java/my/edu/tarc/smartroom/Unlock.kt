@@ -2,8 +2,10 @@ package my.edu.tarc.smartroom
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.DataSnapshot
@@ -18,9 +20,10 @@ class Unlock: AppCompatActivity() {
 
         //Link UI to program
         val doorPin : EditText = findViewById(R.id.editTextPIN)
+        val txt : TextView = findViewById(R.id.textView11)
         val buttonUnlock : Button = findViewById(R.id.buttonUnlock)
 
-        //database1 = common resources firebase
+        //accessing the common resources firebase
         val database1 = FirebaseDatabase.getInstance("https://bait2123-202010-03.firebaseio.com/")
         val ref1 = database1.getReference("PI_03_CONTROL")
 
@@ -28,29 +31,37 @@ class Unlock: AppCompatActivity() {
         val database2 = FirebaseDatabase.getInstance("https://solenoid-lock-f65e8.firebaseio.com/")
         var ref2 = database2.getReference("Room")
 
-        //Initializing variable values
-        var code: String = "000000"
+        val doorfirebase = FirebaseDatabase.getInstance("https://bait2123-202010-05.firebaseio.com/")
+        val relay1 = doorfirebase.getReference("PI_001").child("buzz");
+        val relay2 = doorfirebase.getReference("PI_001").child("lock");
 
-        //retrieving the pass code from firebase
+        var code:String = "000000"
+
+        //read which room does user choosed :)
+        var prac =getIntent().getStringExtra("roomChoosen");
+
+        //read the correct psw from firebase
         ref2.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                //Retrieve user room selection from firebase
-                var selection = dataSnapshot.child("selection").value.toString();
                 //check for retrieving which room
-                if (selection == "1") {
+                if (prac == "1") {
                     //storing the correct password into code variable
+                    txt.text ="PLEASE ENTER DOOR 1 PIN"
                     code = dataSnapshot.child("Room1").child("code").value.toString();
                 }
-                else if (selection == "2") {
+                else if (prac == "2") {
                     //storing the correct password into code variable
+                    txt.text ="PLEASE ENTER DOOR 2 PIN"
                     code = dataSnapshot.child("Room2").child("code").value.toString();
                 }
-                else if (selection == "3") {
+                else if (prac == "3") {
                     //storing the correct password into code variable
+                    txt.text ="PLEASE ENTER DOOR 3 PIN"
                     code = dataSnapshot.child("Room3").child("code").value.toString();
                 }
-                else if (selection == "4") {
+                else if (prac == "4") {
                     //storing the correct password into code variable
+                    txt.text ="PLEASE ENTER DOOR 4 PIN"
                     code = dataSnapshot.child("Room4").child("code").value.toString();
                 }
             }
@@ -77,12 +88,19 @@ class Unlock: AppCompatActivity() {
                 }
                 else{
                     Toast.makeText(baseContext, "Door Unlocked!!YAY", Toast.LENGTH_SHORT).show()
-                    // reaction when door is unlocked
-                    ref1.child("relay1").setValue("1")
-                    ref1.child("relay2").setValue("1")
-                    Thread.sleep(5000)
-                    ref1.child("relay1").setValue("0")
-                    ref1.child("relay2").setValue("0")
+                    //make the door open for 10 seconds ayaya bombaya
+                    object : CountDownTimer(10000, 1000) {
+                        override fun onTick(millisUntilFinished: Long) {
+                            relay1.setValue("1")
+                            relay2.setValue("1")
+                        }
+
+                        override fun onFinish() {
+                            relay1.setValue("0")
+                            relay2.setValue("0")
+                        }
+                    }.start()
+
                 }
             }}
     }//end of onCreate
