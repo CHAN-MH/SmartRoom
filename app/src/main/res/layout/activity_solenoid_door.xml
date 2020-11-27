@@ -62,7 +62,7 @@
         android:layout_marginRight="8dp"
         android:fontFamily="serif"
         android:gravity="center_horizontal"
-        android:text="ENTER 6-DIGIT PIN"
+        android:text="@string/enter_pin"
         android:textColor="@color/my_brown"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"

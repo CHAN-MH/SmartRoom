@@ -1,40 +1,38 @@
 package my.edu.tarc.smartroom
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class Door : AppCompatActivity() {
+class Unlock: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_solenoid_door)
+        setContentView(R.layout.activity_unlock)
 
-        var code: String = "000000"
-
-        //Accessing UI
-        val psw: EditText = findViewById(R.id.password)
-        val buttonProceed: Button = findViewById(R.id.buttonProceed)
-        val textView:TextView = findViewById(R.id.textView)
+        //Link UI to program
+        val doorPin : EditText = findViewById(R.id.editTextPIN)
+        val buttonUnlock : Button = findViewById(R.id.buttonUnlock)
 
         //database1 = common resources firebase
         val database1 = FirebaseDatabase.getInstance("https://bait2123-202010-03.firebaseio.com/")
-        val Ref = database1.getReference("PI_03_CONTROL")
-
+        val ref1 = database1.getReference("PI_03_CONTROL")
 
         //accessing the personal database
         val database2 = FirebaseDatabase.getInstance("https://solenoid-lock-f65e8.firebaseio.com/")
-        var myRef = database2.getReference("Room")
+        var ref2 = database2.getReference("Room")
+
+        //Initializing variable values
+        var code: String = "000000"
 
         //retrieving the pass code from firebase
-        myRef.addValueEventListener(object : ValueEventListener {
+        ref2.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 //Retrieve user room selection from firebase
                 var selection = dataSnapshot.child("selection").value.toString();
@@ -57,37 +55,35 @@ class Door : AppCompatActivity() {
                 }
             }
             override fun onCancelled(error: DatabaseError) {
-                textView.text = "Sign In Function Failed"
+                Toast.makeText(baseContext,"Loading Failed. PLease try again.", Toast.LENGTH_SHORT).show()
             }
         })
 
-        buttonProceed.setOnClickListener {
+        buttonUnlock.setOnClickListener {
             //assigning user input to a variable
-            val password:String = psw.text.toString().trim();
-            if(password.isEmpty()){
-                psw.error = "Password is required!";
-                psw.requestFocus();
+            val pin = doorPin.text.toString().trim()
+            if(pin.isEmpty()){
+                doorPin.error = "Password is required!";
+                doorPin.requestFocus();
             }
-            else if(password.length < 6){
-                psw.error = "Password must not less than 6 digit!";
-                psw.requestFocus();
+            else if(pin.length < 6){
+                doorPin.error = "Password must not less than 6 digit!";
+                doorPin.requestFocus();
             }
             else{
-                if(password != code){
-                    psw.error = "Password does not match!";
-                    psw.requestFocus();
+                if(pin != code){
+                    doorPin.error = "Password does not match!";
+                    doorPin.requestFocus();
                 }
                 else{
                     Toast.makeText(baseContext, "Door Unlocked!!YAY", Toast.LENGTH_SHORT).show()
                     // reaction when door is unlocked
-                    Ref.child("relay1").setValue("1")
-                    Ref.child("relay2").setValue("1")
+                    ref1.child("relay1").setValue("1")
+                    ref1.child("relay2").setValue("1")
                     Thread.sleep(5000)
-                    Ref.child("relay1").setValue("0")
-                    Ref.child("relay2").setValue("0")
-                    val intent = Intent(this, Timer::class.java)
-                    startActivity(intent)
+                    ref1.child("relay1").setValue("0")
+                    ref1.child("relay2").setValue("0")
                 }
-            }}//end of proceed button
-    }//end of OnCreate
+            }}
+    }//end of onCreate
 }//end of Class

@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".DisplayUnlock" />
+        <activity android:name=".Unlock" />
         <activity android:name=".DisplayRoom" />
         <activity android:name=".Reservation" />
         <activity android:name=".Timer" />

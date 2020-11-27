@@ -20,4 +20,5 @@
     <string name="mychannel">My Channel</string>
     <string name="channeldesc">This is my channel</string>
     <string name="unlock_door">Unlock the Door</string>
+    <string name="enter_pin">ENTER 6 DIGIT PIN</string>
 </resources>
