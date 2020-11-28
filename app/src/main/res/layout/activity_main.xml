@@ -23,8 +23,8 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_marginStart="48dp"
         android:layout_marginLeft="48dp"
         android:layout_marginTop="60dp"
@@ -34,11 +34,11 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_marginStart="48dp"
         android:layout_marginLeft="48dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
         app:srcCompat="@drawable/password" />
@@ -60,7 +60,7 @@
     <EditText
         android:id="@+id/editTextEmail"
         android:layout_width="240dp"
-        android:layout_height="38dp"
+        android:layout_height="45dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="60dp"
@@ -68,14 +68,15 @@
         android:fontFamily="serif"
         android:hint="@string/hint_email"
         android:inputType="textEmailAddress"
-        android:textSize="14sp"
+        android:textColor="@color/my_brown"
+        android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/imageView2"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <EditText
         android:id="@+id/editTextPassword"
         android:layout_width="234dp"
-        android:layout_height="37dp"
+        android:layout_height="45dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="12dp"
@@ -83,7 +84,8 @@
         android:fontFamily="serif"
         android:hint="@string/hint_password"
         android:inputType="textPassword"
-        android:textSize="14sp"
+        android:textColor="@color/my_brown"
+        android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/imageView3"
         app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
 

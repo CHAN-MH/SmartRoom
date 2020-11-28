@@ -8,6 +8,8 @@ import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -64,13 +66,13 @@ class Timer : AppCompatActivity() {
                 timeRef.child("Timer").setValue(timeLeft)
                 var notiTime = (millisUntilFinished / 1000).toString()
                 if (notiTime == "20") {
-                    createNotificationChannel()
+                    AbtEndNotiChannel()
                 }
             }//end of onTick
 
             override fun onFinish() {
                 UItimer.setText("Session Ended!")
-
+                EndNotiChannel()
                 when (selection) {
                     "1" -> {
                         timeRef.child("Room1").child("status").setValue("true")
@@ -95,6 +97,7 @@ class Timer : AppCompatActivity() {
                 var lcdbkR = "0"
                 var lcdbkG = "20"
                 var lcdbkB = "0"
+                var buzzer = "1"
 
                 //setting the value at common resources
                 data1.child("lcdscr").setValue(lcdscr)
@@ -102,6 +105,7 @@ class Timer : AppCompatActivity() {
                 data1.child("lcdbkR").setValue(lcdbkR)
                 data1.child("lcdbkG").setValue(lcdbkG)
                 data1.child("lcdbkB").setValue(lcdbkB)
+                data1.child("buzzer").setValue(buzzer)
 
                 //setting the value at personal database
                 data2.child("lcdscr").setValue(lcdscr)
@@ -109,14 +113,30 @@ class Timer : AppCompatActivity() {
                 data2.child("lcdbkR").setValue(lcdbkR)
                 data2.child("lcdbkG").setValue(lcdbkG)
                 data2.child("lcdbkB").setValue(lcdbkB)
+                data2.child("buzzer").setValue(buzzer)
 
+                //Let the buzzer sound for 1 second then switch off
+                data1.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        var reading = dataSnapshot.child("buzzer").value.toString()
+                        if (reading == "1") {
+                            val handler = Handler()
+                            handler.postDelayed({   //Delay the real-time update
+                                data1.child("buzzer").setValue("0")
+                            }, 2000)
+                        }
+                    }
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.i("Error", "Read failed")
+                    }
+                })
             }//end of onFinish
         }.start()//end of timer
 
     }//end of onCreate
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun createNotificationChannel() {
+    private fun AbtEndNotiChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = getString(R.string.mychannel)
             val descriptionText = getString(R.string.channeldesc)
@@ -133,7 +153,7 @@ class Timer : AppCompatActivity() {
         val builderAbtEnd = NotificationCompat.Builder(this, "1234")
             .setSmallIcon(R.drawable.logo)
             .setContentTitle("Session Status")
-            .setContentText("Session about to end")
+            .setContentText("Session ending in 20 minutes")
             .setStyle(
                 NotificationCompat.BigTextStyle()
                     .bigText("Session ending in 20 minutes. Kindly evacuate the room on time.")
@@ -143,20 +163,34 @@ class Timer : AppCompatActivity() {
         with(NotificationManagerCompat.from(this)) {
             notify(notificationId, builderAbtEnd.build())
         }
+    }//end of AbtEndNotiChannel function
 
-        //Send notification to user when session ended
-        val builderEnd = NotificationCompat.Builder(this, "1234")
+    private fun EndNotiChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.mychannel)
+            val descriptionText = getString(R.string.channeldesc)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel("1234", name, importance).apply {
+                description = descriptionText
+            }
+            //Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+        //Send notification to user when session about to end
+        val builderEnded = NotificationCompat.Builder(this, "1234")
             .setSmallIcon(R.drawable.logo)
             .setContentTitle("Session Status")
             .setContentText("Session Ended")
             .setStyle(
                 NotificationCompat.BigTextStyle()
-                    .bigText("Session has ended. Please take along your belongings before leaving. Thank you.")
+                    .bigText("Session ending in 20 minutes. Kindly evacuate the room on time.")
             )
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        val EndNotiId = 8765
+        val notificationId = 8765
         with(NotificationManagerCompat.from(this)) {
-            notify(notificationId, builderEnd.build())
+            notify(notificationId, builderEnded.build())
         }
-    }//end of createNotificationChannel function
+    }
 }//end of class
