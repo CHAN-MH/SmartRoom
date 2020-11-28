@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.DataSnapshot
@@ -19,6 +20,7 @@ class Unlock: AppCompatActivity() {
         //Link UI to program
         val doorPin : EditText = findViewById(R.id.editTextPIN)
         val buttonUnlock : Button = findViewById(R.id.buttonUnlock)
+        val textViewDisplayRoomNum : TextView = findViewById(R.id.textViewDisplayRoomNum)
 
         //database1 = common resources firebase
         val database1 = FirebaseDatabase.getInstance("https://bait2123-202010-03.firebaseio.com/")
@@ -39,19 +41,23 @@ class Unlock: AppCompatActivity() {
                 //check for retrieving which room
                 if (selection == "1") {
                     //storing the correct password into code variable
-                    code = dataSnapshot.child("Room1").child("code").value.toString();
+                    code = dataSnapshot.child("Room1").child("code").value.toString()
+                    textViewDisplayRoomNum.text = "Room No : R01"
                 }
                 else if (selection == "2") {
                     //storing the correct password into code variable
-                    code = dataSnapshot.child("Room2").child("code").value.toString();
+                    code = dataSnapshot.child("Room2").child("code").value.toString()
+                    textViewDisplayRoomNum.text = "Room No : R02"
                 }
                 else if (selection == "3") {
                     //storing the correct password into code variable
-                    code = dataSnapshot.child("Room3").child("code").value.toString();
+                    code = dataSnapshot.child("Room3").child("code").value.toString()
+                    textViewDisplayRoomNum.text = "Room No : R03"
                 }
                 else if (selection == "4") {
                     //storing the correct password into code variable
-                    code = dataSnapshot.child("Room4").child("code").value.toString();
+                    code = dataSnapshot.child("Room4").child("code").value.toString()
+                    textViewDisplayRoomNum.text = "Room No : R04"
                 }
             }
             override fun onCancelled(error: DatabaseError) {
@@ -76,6 +82,7 @@ class Unlock: AppCompatActivity() {
                     doorPin.requestFocus();
                 }
                 else{
+                    startActivity(Intent(this, DisplayTime::class.java))
                     Toast.makeText(baseContext, "Door Unlocked!!YAY", Toast.LENGTH_SHORT).show()
                     // reaction when door is unlocked
                     ref1.child("relay1").setValue("1")
@@ -84,6 +91,7 @@ class Unlock: AppCompatActivity() {
                     ref1.child("relay1").setValue("0")
                     ref1.child("relay2").setValue("0")
                 }
-            }}
+            }
+        }
     }//end of onCreate
 }//end of Class

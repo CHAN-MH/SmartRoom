@@ -24,16 +24,15 @@ class Timer : AppCompatActivity() {
     //database1 = common resources firebase
     val database1 = FirebaseDatabase.getInstance("https://bait2123-202010-03.firebaseio.com/")
 
-    //primary firebase : our firebase
-    val database2: FirebaseDatabase =
-        FirebaseDatabase.getInstance("https://solenoid-lock-f65e8.firebaseio.com/")
-    val timeRef = database2.getReference("Room")
+    //database 2 = personal firebase
+    val database2: FirebaseDatabase = FirebaseDatabase.getInstance("https://solenoid-lock-f65e8.firebaseio.com/")
 
     //Write to common resources firebase
     val data1 = database1.getReference("PI_03_CONTROL")
 
     //Write to personal firebase
     val data2 = database2.getReference("PI_03_CONTROL")
+    val timeRef = database2.getReference("Room")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,14 +55,14 @@ class Timer : AppCompatActivity() {
         })//end of valueEventListener
 
         //start of timer
-        object : CountDownTimer(20000, 1000) {
-
+        object : CountDownTimer(30000, 1000) {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onTick(millisUntilFinished: Long) {
                 UItimer.setText("RemainingTime : " + millisUntilFinished / 1000 + " min")
-                //var timeleft = millisUntilFinished / 1000
+                var timeLeft = millisUntilFinished / 1000
+                timeRef.child("Timer").setValue(timeLeft)
                 var notiTime = (millisUntilFinished / 1000).toString()
-                if (notiTime == "10") {
+                if (notiTime == "20") {
                     createNotificationChannel()
                 }
             }//end of onTick
@@ -73,71 +72,75 @@ class Timer : AppCompatActivity() {
                 when (selection) {
                     "1" -> {
                         timeRef.child("Room1").child("status").setValue("true")
+                        timeRef.child("Room1").child("code").setValue("000000")
                     }
                     "2" -> {
                         timeRef.child("Room2").child("status").setValue("true")
+                        timeRef.child("Room2").child("code").setValue("000000")
                     }
                     "3" -> {
                         timeRef.child("Room3").child("status").setValue("true")
+                        timeRef.child("Room3").child("code").setValue("000000")
                     }
                     "4" -> {
                         timeRef.child("Room4").child("status").setValue("true")
+                        timeRef.child("Room4").child("code").setValue("000000")
                     }
                 }
 
-            var lcdscr = "1"
-            var lcdtxt = "****AVAILABLE***"
-            var lcdbkR = "0"
-            var lcdbkG = "20"
-            var lcdbkB = "0"
+                var lcdscr = "1"
+                var lcdtxt = "****AVAILABLE***"
+                var lcdbkR = "0"
+                var lcdbkG = "20"
+                var lcdbkB = "0"
 
-            //setting the value at common resources
-            data1.child("lcdscr").setValue(lcdscr)
-            data1.child("lcdtxt").setValue(lcdtxt)
-            data1.child("lcdbkR").setValue(lcdbkR)
-            data1.child("lcdbkG").setValue(lcdbkG)
-            data1.child("lcdbkB").setValue(lcdbkB)
+                //setting the value at common resources
+                data1.child("lcdscr").setValue(lcdscr)
+                data1.child("lcdtxt").setValue(lcdtxt)
+                data1.child("lcdbkR").setValue(lcdbkR)
+                data1.child("lcdbkG").setValue(lcdbkG)
+                data1.child("lcdbkB").setValue(lcdbkB)
 
-            //for testing purpose
-            //setting the value at personal database
-            data2.child("lcdscr").setValue(lcdscr)
-            data2.child("lcdtxt").setValue(lcdtxt)
-            data2.child("lcdbkR").setValue(lcdbkR)
-            data2.child("lcdbkG").setValue(lcdbkG)
-            data2.child("lcdbkB").setValue(lcdbkB)
-        }//end of onFinish
-    }.start()//end of timer
+                //setting the value at personal database
+                data2.child("lcdscr").setValue(lcdscr)
+                data2.child("lcdtxt").setValue(lcdtxt)
+                data2.child("lcdbkR").setValue(lcdbkR)
+                data2.child("lcdbkG").setValue(lcdbkG)
+                data2.child("lcdbkB").setValue(lcdbkB)
 
-}//end of onCreate
+            }//end of onFinish
+        }.start()//end of timer
 
-@RequiresApi(Build.VERSION_CODES.O)
-private fun createNotificationChannel() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        val name = getString(R.string.mychannel)
-        val descriptionText = getString(R.string.channeldesc)
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel("1234", name, importance).apply {
-            description = descriptionText
+    }//end of onCreate
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.mychannel)
+            val descriptionText = getString(R.string.channeldesc)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel("1234", name, importance).apply {
+                description = descriptionText
+            }
+            //Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
         }
-        //Register the channel with the system
-        val notificationManager: NotificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(channel)
+        //Send notification to user when session about to end
+        val builder = NotificationCompat.Builder(this, "1234")
+            .setSmallIcon(R.drawable.logo)
+            .setContentTitle("Session Status")
+            .setContentText("Session about to end")
+            .setStyle(
+                NotificationCompat.BigTextStyle()
+                    .bigText("Session ending in 20 minutes. Kindly evacuate the room on time.")
+            )
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        val notificationId = 5678
+        with(NotificationManagerCompat.from(this)) {
+            notify(notificationId, builder.build())
+        }
     }
-    //Send notification to user when session about to end
-    val builder = NotificationCompat.Builder(this, "1234")
-        .setSmallIcon(R.drawable.logo)
-        .setContentTitle("Session Status")
-        .setContentText("Session about to end")
-        .setStyle(
-            NotificationCompat.BigTextStyle()
-                .bigText("Session ending in 20 minutes. Kindly evacuate the room on time.")
-        )
-        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-    val notificationId = 5678
-    with(NotificationManagerCompat.from(this)) {
-        notify(notificationId, builder.build())
-    }
-}
 
 }//end of class
