@@ -60,6 +60,7 @@ class Timer : AppCompatActivity() {
             override fun onTick(millisUntilFinished: Long) {
                 UItimer.setText("RemainingTime : " + millisUntilFinished / 1000 + " min")
                 var timeLeft = millisUntilFinished / 1000
+                //Write Timer value to database
                 timeRef.child("Timer").setValue(timeLeft)
                 var notiTime = (millisUntilFinished / 1000).toString()
                 if (notiTime == "20") {
@@ -69,6 +70,7 @@ class Timer : AppCompatActivity() {
 
             override fun onFinish() {
                 UItimer.setText("Session Ended!")
+
                 when (selection) {
                     "1" -> {
                         timeRef.child("Room1").child("status").setValue("true")
@@ -128,7 +130,7 @@ class Timer : AppCompatActivity() {
             notificationManager.createNotificationChannel(channel)
         }
         //Send notification to user when session about to end
-        val builder = NotificationCompat.Builder(this, "1234")
+        val builderAbtEnd = NotificationCompat.Builder(this, "1234")
             .setSmallIcon(R.drawable.logo)
             .setContentTitle("Session Status")
             .setContentText("Session about to end")
@@ -139,8 +141,22 @@ class Timer : AppCompatActivity() {
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         val notificationId = 5678
         with(NotificationManagerCompat.from(this)) {
-            notify(notificationId, builder.build())
+            notify(notificationId, builderAbtEnd.build())
         }
-    }
 
+        //Send notification to user when session ended
+        val builderEnd = NotificationCompat.Builder(this, "1234")
+            .setSmallIcon(R.drawable.logo)
+            .setContentTitle("Session Status")
+            .setContentText("Session Ended")
+            .setStyle(
+                NotificationCompat.BigTextStyle()
+                    .bigText("Session has ended. Please take along your belongings before leaving. Thank you.")
+            )
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        val EndNotiId = 8765
+        with(NotificationManagerCompat.from(this)) {
+            notify(notificationId, builderEnd.build())
+        }
+    }//end of createNotificationChannel function
 }//end of class

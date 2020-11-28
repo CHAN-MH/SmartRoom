@@ -33,28 +33,31 @@ class Unlock: AppCompatActivity() {
         //Initializing variable values
         var code: String = "000000"
 
+        //Retrieving value from intent
+        val roomChoosen = intent.getStringExtra("roomChoosen")
+
         //retrieving the pass code from firebase
         ref2.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 //Retrieve user room selection from firebase
-                var selection = dataSnapshot.child("selection").value.toString();
+                //var selection = dataSnapshot.child("selection").value.toString();
                 //check for retrieving which room
-                if (selection == "1") {
+                if (roomChoosen == "1") {
                     //storing the correct password into code variable
                     code = dataSnapshot.child("Room1").child("code").value.toString()
                     textViewDisplayRoomNum.text = "Room No : R01"
                 }
-                else if (selection == "2") {
+                else if (roomChoosen == "2") {
                     //storing the correct password into code variable
                     code = dataSnapshot.child("Room2").child("code").value.toString()
                     textViewDisplayRoomNum.text = "Room No : R02"
                 }
-                else if (selection == "3") {
+                else if (roomChoosen == "3") {
                     //storing the correct password into code variable
                     code = dataSnapshot.child("Room3").child("code").value.toString()
                     textViewDisplayRoomNum.text = "Room No : R03"
                 }
-                else if (selection == "4") {
+                else if (roomChoosen == "4") {
                     //storing the correct password into code variable
                     code = dataSnapshot.child("Room4").child("code").value.toString()
                     textViewDisplayRoomNum.text = "Room No : R04"
@@ -82,8 +85,6 @@ class Unlock: AppCompatActivity() {
                     doorPin.requestFocus();
                 }
                 else{
-                    val intent = Intent(this, DisplayTime::class.java)
-                    startActivity(intent)
                     Toast.makeText(baseContext, "Door Unlocked!!YAY", Toast.LENGTH_SHORT).show()
                     // reaction when door is unlocked
                     ref1.child("relay1").setValue("1")
