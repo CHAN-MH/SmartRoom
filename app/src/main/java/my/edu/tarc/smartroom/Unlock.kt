@@ -2,6 +2,7 @@ package my.edu.tarc.smartroom
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -35,6 +36,10 @@ class Unlock: AppCompatActivity() {
 
         //Retrieving value from intent
         val roomChoosen = intent.getStringExtra("roomChoosen")
+
+        val secondary = FirebaseDatabase.getInstance("https://bait2123-202010-05.firebaseio.com/")
+        val relay1 = secondary.getReference("PI_001").child("buzz");
+        val relay2 = secondary.getReference("PI_001").child("lock");
 
         //retrieving the pass code from firebase
         ref2.addValueEventListener(object : ValueEventListener {
@@ -87,11 +92,17 @@ class Unlock: AppCompatActivity() {
                 else{
                     Toast.makeText(baseContext, "Door Unlocked!!YAY", Toast.LENGTH_SHORT).show()
                     // reaction when door is unlocked
-                    ref1.child("relay1").setValue("1")
-                    ref1.child("relay2").setValue("1")
-                    Thread.sleep(5000)
-                    ref1.child("relay1").setValue("0")
-                    ref1.child("relay2").setValue("0")
+                    object : CountDownTimer(10000, 1000) {
+                        override fun onTick(millisUntilFinished: Long) {
+                            relay1.setValue("1")
+                            relay2.setValue("1")
+                        }
+
+                        override fun onFinish() {
+                            relay1.setValue("0")
+                            relay2.setValue("0")
+                        }
+                    }.start()
                 }
             }}
     }//end of onCreate

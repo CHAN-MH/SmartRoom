@@ -71,24 +71,28 @@ class Timer : AppCompatActivity() {
             }//end of onTick
 
             override fun onFinish() {
+                //generate a 6 PIN code
+                var code = (Math.random()*1000000).toInt()
+                var pcode = String.format("%06d", code);
+
                 UItimer.setText("Session Ended!")
                 EndNotiChannel()
                 when (selection) {
                     "1" -> {
                         timeRef.child("Room1").child("status").setValue("true")
-                        timeRef.child("Room1").child("code").setValue("000000")
+                        timeRef.child("Room1").child("code").setValue(pcode)
                     }
                     "2" -> {
                         timeRef.child("Room2").child("status").setValue("true")
-                        timeRef.child("Room2").child("code").setValue("000000")
+                        timeRef.child("Room2").child("code").setValue(pcode)
                     }
                     "3" -> {
                         timeRef.child("Room3").child("status").setValue("true")
-                        timeRef.child("Room3").child("code").setValue("000000")
+                        timeRef.child("Room3").child("code").setValue(pcode)
                     }
                     "4" -> {
                         timeRef.child("Room4").child("status").setValue("true")
-                        timeRef.child("Room4").child("code").setValue("000000")
+                        timeRef.child("Room4").child("code").setValue(pcode)
                     }
                 }
 
