@@ -81,6 +81,7 @@ class Timer : AppCompatActivity() {
                     "1" -> {
                         timeRef.child("Room1").child("status").setValue("true")
                         timeRef.child("Room1").child("code").setValue(pcode)
+                        timeRef.child("Room1").child("sanitizerUsed").setValue(0)
                     }
                     "2" -> {
                         timeRef.child("Room2").child("status").setValue("true")
